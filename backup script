@@ -1,0 +1,45 @@
+# Hello
+
+############################ -----------BACKUP SCRIPT----------- ########################################
+########################### ------------------------------------- ########################################
+
+##### Copy the databases(ianus, ianus-metadata, camunda) and ianus-storage from live server to the test server (Address: /data/live-backup) as a weekly manner ########
+
+
+#0 1 * * 0 root /data/cron-script/backup.sh >> /data/cron-script/transfer.log 2>&1
+
+
+############################ ------------------------------------ ############################
+############################ ------------------------------------############################
+
+
+
+
+#### Bash script to take the backup of live server database and storage
+
+
+####------ dump the database from the live server to the test server (Address: /data/live-backup/database_backup/)------ #############
+
+#name=$(date +%m-%d-%Y)
+
+#ssh -i /data/keyset/id_rsa mrahman@195.37.32.4 'mkdir /data/live-backup/database_backup/'$name
+
+
+#mysqldump -uroot --password=admin ianus | gzip -c | ssh -i /data/keyset/id_rsa mrahman@195.37.32.4 'cat > /data/live-backup/database_backup/'$name'/ianus_`date +\%m-\%d-\%Y`.sql'
+#mysqldump -uroot --password=admin ianus_metadata | gzip -c | ssh -i /data/keyset/id_rsa mrahman@195.37.32.4 'cat > /data/live-backup/database_backup/'$name'/ianus_metadata_`date +\%m-\%d-\%Y`.sql'
+#mysqldump -uroot --password=admin camunda | gzip -c | ssh -i /data/keyset/id_rsa mrahman@195.37.32.4 'cat > /data/live-backup/database_backup/'$name'/camunda_`date +\%m-\%d-\%Y`.sql'
+
+
+
+##### --------copy the storage file-------- #########
+
+
+#rsync -hrtplu -e 'ssh -i /data/keyset/id_rsa' /data/ianus-storage mrahman@195.37.32.4:/data/live-backup/
+
+
+############### ---------- Extra Code ----------- ################
+
+#srcdir="/data/bb"
+#dstdir="mrahman@195.37.32.4:/data/ianus-test/"
+#d=$(date +%m-%d-%Y)
+
